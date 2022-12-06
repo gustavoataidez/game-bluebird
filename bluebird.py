@@ -7,7 +7,7 @@ pygame.init()
 largura_tela = 640
 altura_tela = 480
 tela = pygame.display.set_mode((largura_tela, altura_tela))
-pygame.display.set_caption('BLUE BIRD')
+pygame.display.set_caption('Blue Bird')
 
 fundo = pygame.image.load('')
 
