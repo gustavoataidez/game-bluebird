@@ -15,21 +15,26 @@ class Passaro(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         
-        self.images = [pygame.image.load('testeupflap.png').convert_alpha(),
-                       pygame.image.load('testemidflap.png').convert_alpha(),
-                       pygame.image.load('testedownflap.png').convert_alpha()]
+        self.images = [pygame.image.load('arara1.png').convert_alpha(),
+                       pygame.image.load('arara2.png').convert_alpha(),
+                       pygame.image.load('arara3.png').convert_alpha(),
+                       pygame.image.load('arara4.png').convert_alpha(),
+                       pygame.image.load('arara5.png').convert_alpha(),
+                       pygame.image.load('arara6.png').convert_alpha(),
+                       pygame.image.load('arara7.png').convert_alpha(),
+                       pygame.image.load('arara8.png').convert_alpha(),]
 
         self.velocidade = velocidade
 
         self.current_image = 0
 
-        self.image = pygame.image.load('testeupflap.png').convert_alpha()
+        self.image = pygame.image.load('arara1.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect[0] = largura_tela / 2
        
         self.rect[1] = altura_tela / 2
     def update(self):
-        self.current_image = (self.current_image + 1) % 3
+        self.current_image = (self.current_image + 1) % 8
         self.image = self.images [self.current_image]
 
         self.velocidade += gravidade
