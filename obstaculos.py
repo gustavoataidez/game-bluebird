@@ -13,7 +13,6 @@ largurachao = 2 * largura_tela
 alturachao = 80
 
 class Passaro(pygame.sprite.Sprite):
-
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         
