@@ -9,6 +9,8 @@ altura_tela = 480
 velocidade = 10
 gravidade = 1
 velocidadejogo = 10
+largurachao = 2 * largura_tela
+alturachao = 80
 
 class Passaro(pygame.sprite.Sprite):
 
@@ -44,20 +46,23 @@ class Passaro(pygame.sprite.Sprite):
 
     def pulo(self):
         self.velocidade = -velocidade
-class base(pygame.sprite.Sprite):
+class Chao(pygame.sprite.Sprite):
 
-    def __init__(self, largura, altura):
+    def __init__(self, ichao):
         pygame.sprite.Sprite. __init__(self)
 
         self.image = pygame.image.load('chãofinal.png')
-        self.image = pygame.transform.scale(self.image, (largura, altura))
+        self.image = pygame.transform.scale(self.image, (largurachao, alturachao))
 
         self.rect = self.image.get_rect()
-        self.rect[1] = altura_tela - altura
+        self.rect[0] = ichao
+        self.rect[1] = altura_tela - alturachao
 
     def update(self):
         self.rect[0] -= velocidadejogo
 
+def is_off_tela(sprite):
+    return sprite.rect[0] < -(sprite.rect[2])
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('Blue Bird')
@@ -69,9 +74,10 @@ grupopassaro = pygame.sprite.Group()
 passaro = Passaro()
 grupopassaro.add(passaro)
 
-base_base = pygame.sprite.Group()
-base = base(2 * largura_tela, 80)
-base_base.add(base)
+chao_chao = pygame.sprite.Group()
+for i in range(2):
+    chao = Chao( largurachao * i)
+    chao_chao.add(chao)
 
 clock = pygame.time.Clock()
 
@@ -86,10 +92,16 @@ while True:
                 passaro.pulo()  
     tela.blit(fundo, (0, 0))
     
+    if is_off_tela(chao_chao.sprites()[0]):
+        chao_chao.remove(chao_chao.sprites()[0])
+
+        novo_chao = Chao(largurachao - 20)
+        chao_chao.add(novo_chao)
+
     grupopassaro.update()
-    base_base.update()
+    chao_chao.update()
 
     grupopassaro.draw(tela)
-    base_base.draw(tela)
+    chao_chao.draw(tela)
 
     pygame.display.update()
