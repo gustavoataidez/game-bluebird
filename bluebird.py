@@ -31,6 +31,8 @@ class Passaro(pygame.sprite.Sprite):
         self.current_image = 0
 
         self.image = pygame.image.load('arara1.png').convert_alpha()
+        self.mask = pygame.mask.from_surface(self.image)
+
         self.rect = self.image.get_rect()
         self.rect[0] = largura_tela / 2
        
@@ -51,8 +53,10 @@ class Chao(pygame.sprite.Sprite):
     def __init__(self, ichao):
         pygame.sprite.Sprite. __init__(self)
 
-        self.image = pygame.image.load('chãofinal.png')
+        self.image = pygame.image.load('chãofinal.png').convert_alpha()
         self.image = pygame.transform.scale(self.image,(largurachao, alturachao))
+
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.rect = self.image.get_rect()
         self.rect[0] = ichao
@@ -105,3 +109,7 @@ while True:
     chao_chao.draw(tela)
 
     pygame.display.update()
+
+    if pygame.sprite.groupcollide(grupopassaro,chao_chao, False, False, pygame.sprite.collide_mask):
+        input()
+        break
