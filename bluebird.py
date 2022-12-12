@@ -71,7 +71,7 @@ def is_off_tela(sprite):
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('Blue Bird')
 
-fundo = pygame.image.load('imagem de fundo.png')
+fundo = pygame.image.load('imagem de fundo 3.png')
 fundo = pygame.transform.scale(fundo, (largura_tela, altura_tela))
 
 grupopassaro = pygame.sprite.Group()
