@@ -17,20 +17,20 @@ class Passaro(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         
-        self.images = [pygame.image.load('arara1.png').convert_alpha(),
-                       pygame.image.load('arara2.png').convert_alpha(),
-                       pygame.image.load('arara3.png').convert_alpha(),
-                       pygame.image.load('arara4.png').convert_alpha(),
-                       pygame.image.load('arara5.png').convert_alpha(),
-                       pygame.image.load('arara6.png').convert_alpha(),
-                       pygame.image.load('arara7.png').convert_alpha(),
-                       pygame.image.load('arara8.png').convert_alpha(),]
+        self.images = [pygame.image.load('images/arara1.png').convert_alpha(),
+                       pygame.image.load('images/arara2.png').convert_alpha(),
+                       pygame.image.load('images/arara3.png').convert_alpha(),
+                       pygame.image.load('images/arara4.png').convert_alpha(),
+                       pygame.image.load('images/arara5.png').convert_alpha(),
+                       pygame.image.load('images/arara6.png').convert_alpha(),
+                       pygame.image.load('images/arara7.png').convert_alpha(),
+                       pygame.image.load('images/arara8.png').convert_alpha(),]
 
         self.velocidade = velocidade
 
         self.current_image = 0
 
-        self.image = pygame.image.load('arara1.png').convert_alpha()
+        self.image = pygame.image.load('images/arara1.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect[0] = largura_tela / 2
        
@@ -51,7 +51,7 @@ class Chao(pygame.sprite.Sprite):
     def __init__(self, ichao):
         pygame.sprite.Sprite. __init__(self)
 
-        self.image = pygame.image.load('chãofinal.png')
+        self.image = pygame.image.load('images/chãofinal.png')
         self.image = pygame.transform.scale(self.image,(largurachao, alturachao))
 
         self.rect = self.image.get_rect()
@@ -67,7 +67,7 @@ def is_off_tela(sprite):
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('Blue Bird')
 
-fundo = pygame.image.load('imagem de fundo.png')
+fundo = pygame.image.load('images/imagem de fundo.png')
 fundo = pygame.transform.scale(fundo, (largura_tela, altura_tela))
 
 grupopassaro = pygame.sprite.Group()
