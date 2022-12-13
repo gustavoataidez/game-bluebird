@@ -21,20 +21,20 @@ class Passaro(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         
-        self.images = [pygame.image.load('arara1.png').convert_alpha(),
-                       pygame.image.load('arara2.png').convert_alpha(),
-                       pygame.image.load('arara3.png').convert_alpha(),
-                       pygame.image.load('arara4.png').convert_alpha(),
-                       pygame.image.load('arara5.png').convert_alpha(),
-                       pygame.image.load('arara6.png').convert_alpha(),
-                       pygame.image.load('arara7.png').convert_alpha(),
-                       pygame.image.load('arara8.png').convert_alpha(),]
+        self.images = [pygame.image.load('images/arara1.png').convert_alpha(),
+                       pygame.image.load('images/arara2.png').convert_alpha(),
+                       pygame.image.load('images/arara3.png').convert_alpha(),
+                       pygame.image.load('images/arara4.png').convert_alpha(),
+                       pygame.image.load('images/arara5.png').convert_alpha(),
+                       pygame.image.load('images/arara6.png').convert_alpha(),
+                       pygame.image.load('images/arara7.png').convert_alpha(),
+                       pygame.image.load('images/arara8.png').convert_alpha(),]
 
         self.velocidade = velocidade
 
         self.current_image = 0
 
-        self.image = pygame.image.load('arara1.png').convert_alpha()
+        self.image = pygame.image.load('images/arara1.png').convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
 
         self.rect = self.image.get_rect()
@@ -58,7 +58,7 @@ class Gaiola(pygame.sprite.Sprite):
     def __init__(self, inverted, xpos, ysize):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load('gaiola.png').convert_alpha()
+        self.image = pygame.image.load('images/gaiola.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (largura_gaiola, altura_gaiola))
 
         self.rect = self.image.get_rect()
@@ -80,7 +80,7 @@ class Chao(pygame.sprite.Sprite):
     def __init__(self, ichao):
         pygame.sprite.Sprite. __init__(self)
 
-        self.image = pygame.image.load('chãofinal.png').convert_alpha()
+        self.image = pygame.image.load('images/chãofinal.png').convert_alpha()
         self.image = pygame.transform.scale(self.image,(largurachao, alturachao))
 
         self.mask = pygame.mask.from_surface(self.image)
@@ -100,12 +100,12 @@ def get_random_gaiola(xpos):
     gaiola = Gaiola(False, xpos, tamanho)
     gaiola_invertido = Gaiola(True, xpos, altura_tela - tamanho - gaiola_gap)
     return (gaiola, gaiola_invertido)
-
+ 
 pygame.init()
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('Blue Bird')
 
-fundo = pygame.image.load('imagem de fundo 3.png')
+fundo = pygame.image.load('images/imagem de fundo 3.png')
 fundo = pygame.transform.scale(fundo, (largura_tela, altura_tela))
 
 grupopassaro = pygame.sprite.Group()
