@@ -14,7 +14,7 @@ alturachao = 80
 largura_gaiola = 70 
 altura_gaiola = 280
 
-gaiola_gap = 200
+gaiola_gap = 170
 
 class Passaro(pygame.sprite.Sprite):
 
@@ -119,7 +119,7 @@ for i in range(2):
 
 grupogaiola = pygame.sprite.Group()
 for i in range(2):
-    gaiola = get_random_gaiola(largura_tela * i + 500) 
+    gaiola = get_random_gaiola(largura_tela * i + 800) 
     grupogaiola.add(gaiola[0])
     grupogaiola.add(gaiola[1])
 
