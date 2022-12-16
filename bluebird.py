@@ -6,10 +6,10 @@ largura_tela = 640
 altura_tela = 480
 velocidade = 10
 gravidade = 1
-velocidadejogo = 10
+velocidade_do_jogo = 10
 
-largurachao = 2 * largura_tela
-alturachao = 80
+largura_chao = 2 * largura_tela
+altura_chao = 80
 
 largura_gaiola = 70 
 altura_gaiola = 280
@@ -73,7 +73,7 @@ class Gaiola(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
     def update(self):
-        self.rect[0] -= velocidadejogo
+        self.rect[0] -= velocidade_do_jogo
 
 class Chao(pygame.sprite.Sprite):
 
@@ -81,16 +81,16 @@ class Chao(pygame.sprite.Sprite):
         pygame.sprite.Sprite. __init__(self)
 
         self.image = pygame.image.load('images/chãofinal.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image,(largurachao, alturachao))
+        self.image = pygame.transform.scale(self.image,(largura_chao, altura_chao))
 
         self.mask = pygame.mask.from_surface(self.image)
 
         self.rect = self.image.get_rect()
         self.rect[0] = ichao
-        self.rect[1] = altura_tela - alturachao
+        self.rect[1] = altura_tela - altura_chao
 
     def update(self):
-        self.rect[0] -= velocidadejogo
+        self.rect[0] -= velocidade_do_jogo
 
 def is_off_tela(sprite):
     return sprite.rect[0] < -(sprite.rect[2])
@@ -112,10 +112,10 @@ grupopassaro = pygame.sprite.Group()
 passaro = Passaro()
 grupopassaro.add(passaro)
 
-chao_chao = pygame.sprite.Group()
+grupo_chao = pygame.sprite.Group()
 for i in range(2):
-    chao = Chao( largurachao * i)
-    chao_chao.add(chao)
+    chao = Chao( largura_chao * i)
+    grupo_chao.add(chao)
 
 grupogaiola = pygame.sprite.Group()
 for i in range(2):
@@ -137,11 +137,11 @@ while True:
 
     tela.blit(fundo, (0, 0))
 
-    if is_off_tela(chao_chao.sprites()[0]):
-        chao_chao.remove(chao_chao.sprites()[0])
+    if is_off_tela(grupo_chao.sprites()[0]):
+        grupo_chao.remove(grupo_chao.sprites()[0])
 
-        novo_chao = Chao(largurachao - 20)
-        chao_chao.add(novo_chao)
+        novo_chao = Chao(largura_chao - 20)
+        grupo_chao.add(novo_chao)
 
     if is_off_tela(grupogaiola.sprites()[0]):
         grupogaiola.remove(grupogaiola.sprites()[0])
@@ -152,14 +152,14 @@ while True:
         grupogaiola.add(gaiola[1])
     
     grupopassaro.update()
-    chao_chao.update()
+    grupo_chao.update()
     grupogaiola.update()
 
     grupopassaro.draw(tela)
-    chao_chao.draw(tela)
+    grupo_chao.draw(tela)
     grupogaiola.draw(tela)
 
     pygame.display.update()
 
-    if (pygame.sprite.groupcollide(grupopassaro, chao_chao, False, False, pygame.sprite.collide_mask) or pygame.sprite.groupcollide(grupopassaro, grupogaiola, False, False, pygame.sprite.collide_mask)):
+    if (pygame.sprite.groupcollide(grupopassaro, grupo_chao, False, False, pygame.sprite.collide_mask) or pygame.sprite.groupcollide(grupopassaro, grupogaiola, False, False, pygame.sprite.collide_mask)):
         break
