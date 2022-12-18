@@ -1,3 +1,60 @@
+largura_gaiola = 70 
+altura_gaiola = 280
+
+gaiola_gap = 160
+
+tela = pygame.display.set_mode((largura_tela, altura_tela))
+pygame.display.set_caption('Blue Bird')
+
+fundo = pygame.image.load('images/imagem de fundo 3.png')
+fundo = pygame.transform.scale(fundo, (largura_tela, altura_tela))
+
+def is_off_tela(sprite):
+    return sprite.rect[0] < -(sprite.rect[2])
+
+def get_random_gaiola(xpos):
+    tamanho = random.randint(100, 300)
+    gaiola = Gaiola(False, xpos, tamanho)
+    gaiola_invertido = Gaiola(True, xpos, altura_tela - tamanho - gaiola_gap)
+    return (gaiola, gaiola_invertido)
+
+class Passaro(pygame.sprite.Sprite):
+
+    def _init_(self):
+        pygame.sprite.Sprite._init_(self)
+        
+        self.images = [pygame.image.load('images/arara1.png').convert_alpha(),
+                    pygame.image.load('images/arara2.png').convert_alpha(),
+                    pygame.image.load('images/arara3.png').convert_alpha(),
+                    pygame.image.load('images/arara4.png').convert_alpha(),
+                    pygame.image.load('images/arara5.png').convert_alpha(),
+                    pygame.image.load('images/arara6.png').convert_alpha(),
+                    pygame.image.load('images/arara7.png').convert_alpha(),
+                    pygame.image.load('images/arara8.png').convert_alpha(),]
+
+        self.velocidade = velocidade
+
+        self.current_image = 0
+
+        self.image = pygame.image.load('images/arara1.png').convert_alpha()
+        self.mask = pygame.mask.from_surface(self.image)
+
+        self.rect = self.image.get_rect()
+        self.rect[0] = largura_tela / 2
+        self.rect[1] = altura_tela / 2
+
+    def update(self):
+        self.current_image = (self.current_image + 1) % 8
+        self.image = self.images [self.current_image]
+
+        self.velocidade += gravidade
+
+        #update altura
+        self.rect[1] += self.velocidade
+
+    def pulo(self):
+        self.velocidade = -velocidade
+
 class Gaiola(pygame.sprite.Sprite):
 
     def __init__(self, inverted, xpos, ysize):
