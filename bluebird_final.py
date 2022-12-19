@@ -163,3 +163,48 @@ class Game:
 
             if (pygame.sprite.groupcollide(grupopassaro, grupo_chao, False, False, pygame.sprite.collide_mask) or pygame.sprite.groupcollide(grupopassaro, grupogaiola, False, False, pygame.sprite.collide_mask)):
                 break
+
+
+    def mostrar_texto(self, texto, tamanho, cor, x, y):
+        #Exibe um texto na tela do jogo
+        fonte = pygame.font.Font(self.fonte, tamanho)
+        texto = fonte.render(texto, True, cor)
+        texto_rect = texto.get_rect()
+        texto_rect.midtop = (x, y)
+        self.tela.blit(texto, texto_rect)
+
+    def mostrar_start_logo(self, x, y):
+        self.backgroung_1 = pygame.image.load('back1.png')
+        start_logo_rect = self.backgroung_1.get_rect()
+        start_logo_rect.midtop = (x, y)
+        self.tela.blit(self.backgroung_1, start_logo_rect)
+
+    def mostrar_tela_start(self):
+        pygame.mixer.music.load('audios/bird_3.wav')
+        pygame.mixer.music.play()
+
+        self.mostrar_start_logo(largura_tela / 2, 0)
+
+        self.mostrar_texto('Pressione uma tecla para jogar', 28, BRANCO, largura_tela / 2, 300)
+
+        pygame.display.update()
+        self.esperar_por_jogador()
+    
+    def esperar_por_jogador(self):
+        esperando = True
+        while esperando:
+            self.clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    esperando = False
+                    self.esta_rodando = False
+                if event.type == KEYUP:
+                    esperando = False    
+                    pygame.mixer.music.stop()         
+                    pygame.mixer.Sound('audios/sfx_wing.wav').play()
+
+    def mostrar_tela_game_over(self):
+        tela.fill(PRETO)
+        exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 100)
+        exibe_mensagem(f'Sua pontuação é de: {pontos:,.1f}', 30, BRANCO, largura_tela / 2, 300)
+        input()
