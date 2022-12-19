@@ -1,6 +1,26 @@
+import pygame, random
+from pygame.locals import *
+
+PRETO = (0, 0, 0)
+BRANCO = (255, 255, 255)
+
+FONTE = 'Source Sans Pro Black'
+FONTE_TITULO = 'Showcard Gothic'
+
+largura_tela = 640
+altura_tela = 480
+velocidade = 10
+gravidade = 1
+velocidade_do_jogo = 10
+
+largura_chao = 2 * largura_tela
+altura_chao = 80
+
 largura_gaiola = 70 
 altura_gaiola = 280
 
+pontos = 0
+pontos += 1
 gaiola_gap = 160
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
@@ -18,10 +38,18 @@ def get_random_gaiola(xpos):
     gaiola_invertido = Gaiola(True, xpos, altura_tela - tamanho - gaiola_gap)
     return (gaiola, gaiola_invertido)
 
+def exibe_mensagem(texto, tamanho, cor, x, y):
+        #Exibe um texto na tela do jogo
+        fonte = pygame.font.SysFont(FONTE, tamanho)
+        texto = fonte.render(texto, True, cor)
+        texto_rect = texto.get_rect()
+        texto_rect.midtop = (x, y)
+        tela.blit(texto, texto_rect)
+
 class Passaro(pygame.sprite.Sprite):
 
     def _init_(self):
-        pygame.sprite.Sprite._init_(self)
+        pygame.sprite.Sprite.__init__(self)
         
         self.images = [pygame.image.load('images/arara1.png').convert_alpha(),
                     pygame.image.load('images/arara2.png').convert_alpha(),
@@ -106,12 +134,13 @@ class Game:
         self.esta_rodando = True
         self.fonte = pygame.font.match_font(FONTE)
 
-        def novo_jogo(self):
+    def novo_jogo(self):
         #classes das sprites do jogo
         self.todas_as_sprites = pygame.sprite.Group()
         grupopassaro = pygame.sprite.Group()
         passaro = Passaro()
         grupopassaro.add(passaro)
+        pontos = 0
 
         grupo_chao = pygame.sprite.Group()
         for i in range(2):
@@ -158,12 +187,14 @@ class Game:
             grupopassaro.update()
             grupo_chao.update()
             grupogaiola.update() #atualizando as sprites
-            
-            pygame.display.flip()
 
             if (pygame.sprite.groupcollide(grupopassaro, grupo_chao, False, False, pygame.sprite.collide_mask) or pygame.sprite.groupcollide(grupopassaro, grupogaiola, False, False, pygame.sprite.collide_mask)):
-                break
-
+                self.mostrar_tela_game_over()
+            else:
+                pontos += 0.1
+                exibe_mensagem(f'{pontos:,.1f}', 40, BRANCO, largura_tela / 2, 30)
+            
+            pygame.display.flip()
 
     def mostrar_texto(self, texto, tamanho, cor, x, y):
         #Exibe um texto na tela do jogo
@@ -206,5 +237,22 @@ class Game:
     def mostrar_tela_game_over(self):
         tela.fill(PRETO)
         exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 100)
-        exibe_mensagem(f'Sua pontuação é de: {pontos:,.1f}', 30, BRANCO, largura_tela / 2, 300)
-        input()
+        exibe_mensagem(f'Sua pontuação é de: {pontos:,.1f}', 26, BRANCO, largura_tela / 2, 250)
+        exibe_mensagem(f'Aperte ESPAÇO para jogar de novo', 26, BRANCO, largura_tela / 2, 300)
+
+        pygame.display.update()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                if event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        self.novo_jogo()
+    
+g = Game()
+g.mostrar_tela_start()
+
+while g.esta_rodando:
+    g.novo_jogo()
+    g.mostrar_tela_game_over()
