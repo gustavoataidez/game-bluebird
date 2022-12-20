@@ -246,7 +246,7 @@ class Game:
         tela.fill(PRETO)
         tela.blit(fundo_game_over, (0,0))
         exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 120)
-        exibe_mensagem('Sua pontuação é de:' + str(mensagem), 26, BRANCO, largura_tela / 2, 250)
+        exibe_mensagem('Sua pontuação é de: ' + str(mensagem), 26, BRANCO, largura_tela / 2, 250)
         exibe_mensagem(f'Aperte ESPAÇO para jogar de novo', 26, BRANCO, largura_tela / 2, 290)
 
         pygame.display.update()
