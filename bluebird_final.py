@@ -206,7 +206,7 @@ class Game:
         self.tela.blit(texto, texto_rect)
 
     def mostrar_start_logo(self, x, y):
-        self.backgroung_1 = pygame.image.load('images/back1.png')
+        self.backgroung_1 = pygame.image.load('images/fundo_inicio.png')
         start_logo_rect = self.backgroung_1.get_rect()
         start_logo_rect.midtop = (x, y)
         self.tela.blit(self.backgroung_1, start_logo_rect)
@@ -234,3 +234,26 @@ class Game:
                     esperando = False    
                     pygame.mixer.music.stop()         
                     pygame.mixer.Sound('audios/sfx_wing.wav').play()
+
+    def mostrar_tela_game_over(self):
+        tela.fill(PRETO)
+        exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 100)
+        exibe_mensagem(f'Sua pontuação é de: {pontos:,.1f}', 26, BRANCO, largura_tela / 2, 250)
+        exibe_mensagem(f'Aperte ESPAÇO para jogar de novo', 26, BRANCO, largura_tela / 2, 300)
+
+        pygame.display.update()
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                if event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        self.novo_jogo()
+        
+g = Game()
+g.mostrar_tela_start()
+
+while g.esta_rodando:
+    g.novo_jogo()
+    g.mostrar_tela_game_over()
