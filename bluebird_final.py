@@ -88,7 +88,7 @@ class Gaiola(pygame.sprite.Sprite):
     def __init__(self, inverted, xpos, ysize):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load('imagens/gaiola.png').convert_alpha()
+        self.image = pygame.image.load('images/gaiola.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (largura_gaiola, altura_gaiola))
 
         self.rect = self.image.get_rect()
@@ -110,7 +110,7 @@ class Chao(pygame.sprite.Sprite):
     def __init__(self, ichao):
         pygame.sprite.Sprite. __init__(self)
 
-        self.image = pygame.image.load('imagens/chãofinal.png').convert_alpha()
+        self.image = pygame.image.load('images/chao_final.png').convert_alpha()
         self.image = pygame.transform.scale(self.image,(largura_chao, altura_chao))
 
         self.mask = pygame.mask.from_surface(self.image)
@@ -196,3 +196,41 @@ class Game:
                 exibe_mensagem(f'{pontos:,.1f}', 40, BRANCO, largura_tela / 2, 30)
             
             pygame.display.flip()
+
+    def mostrar_texto(self, texto, tamanho, cor, x, y):
+        #Exibe um texto na tela do jogo
+        fonte = pygame.font.Font(self.fonte, tamanho)
+        texto = fonte.render(texto, True, cor)
+        texto_rect = texto.get_rect()
+        texto_rect.midtop = (x, y)
+        self.tela.blit(texto, texto_rect)
+
+    def mostrar_start_logo(self, x, y):
+        self.backgroung_1 = pygame.image.load('images/back1.png')
+        start_logo_rect = self.backgroung_1.get_rect()
+        start_logo_rect.midtop = (x, y)
+        self.tela.blit(self.backgroung_1, start_logo_rect)
+
+    def mostrar_tela_start(self):
+        pygame.mixer.music.load('audios/bird_3.wav')
+        pygame.mixer.music.play()
+
+        self.mostrar_start_logo(largura_tela / 2, 0)
+
+        self.mostrar_texto('Pressione uma tecla para jogar', 28, BRANCO, largura_tela / 2, 300)
+
+        pygame.display.update()
+        self.esperar_por_jogador()
+    
+    def esperar_por_jogador(self):
+        esperando = True
+        while esperando:
+            self.clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    esperando = False
+                    self.esta_rodando = False
+                if event.type == KEYUP:
+                    esperando = False    
+                    pygame.mixer.music.stop()         
+                    pygame.mixer.Sound('audios/sfx_wing.wav').play()
