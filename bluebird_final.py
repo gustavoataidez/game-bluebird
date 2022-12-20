@@ -19,8 +19,9 @@ altura_chao = 80
 largura_gaiola = 70 
 altura_gaiola = 280
 
-pontos = 0
-pontos += 1
+pontos = int(0)
+
+pontos += int(1)
 gaiola_gap = 160
 
 tela = pygame.display.set_mode((largura_tela, altura_tela))
@@ -136,11 +137,14 @@ class Game:
         
     def novo_jogo(self):
         #classes das sprites do jogo
+        global pontos
+        global mensagem
+        
         self.todas_as_sprites = pygame.sprite.Group()
         grupopassaro = pygame.sprite.Group()
         passaro = Passaro()
         grupopassaro.add(passaro)
-        pontos = 0
+        pontos = int(0)
 
         grupo_chao = pygame.sprite.Group()
         for i in range(2):
@@ -192,8 +196,9 @@ class Game:
             if (pygame.sprite.groupcollide(grupopassaro, grupo_chao, False, False, pygame.sprite.collide_mask) or pygame.sprite.groupcollide(grupopassaro, grupogaiola, False, False, pygame.sprite.collide_mask)):
                 self.mostrar_tela_game_over()
             else:
-                pontos += 0.1
-                exibe_mensagem(f'{pontos:,.1f}', 40, BRANCO, largura_tela / 2, 30)
+                pontos = pontos + 1
+                mensagem = '{:02d}'.format(pontos)
+                exibe_mensagem(mensagem, 40, BRANCO, largura_tela / 2, 30)
             
             pygame.display.flip()
 
@@ -238,7 +243,7 @@ class Game:
     def mostrar_tela_game_over(self):
         tela.fill(PRETO)
         exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 100)
-        exibe_mensagem(f'Sua pontuação é de: {pontos:,.1f}', 26, BRANCO, largura_tela / 2, 250)
+        exibe_mensagem('Sua pontuação é de:' + str(mensagem), 26, BRANCO, largura_tela / 2, 250)
         exibe_mensagem(f'Aperte ESPAÇO para jogar de novo', 26, BRANCO, largura_tela / 2, 300)
 
         pygame.display.update()
