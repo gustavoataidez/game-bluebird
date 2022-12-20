@@ -29,6 +29,7 @@ pygame.display.set_caption('Blue Bird')
 
 fundo = pygame.image.load('images/fundo_jogo.png')
 fundo = pygame.transform.scale(fundo, (largura_tela, altura_tela))
+fundo_game_over = pygame.image.load('images/fundo_game_over.png')
 
 def is_off_tela(sprite):
     return sprite.rect[0] < -(sprite.rect[2])
@@ -167,6 +168,7 @@ class Game:
                     self.esta_rodando = False
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
+                        pygame.mixer.Sound('audios/sfx_wing.wav').play()
                         passaro.pulo()
         
             self.tela.blit(fundo, (0, 0))
@@ -242,9 +244,10 @@ class Game:
 
     def mostrar_tela_game_over(self):
         tela.fill(PRETO)
-        exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 100)
+        tela.blit(fundo_game_over, (0,0))
+        exibe_mensagem('GAME OVER', 100, BRANCO, largura_tela / 2, 120)
         exibe_mensagem('Sua pontuação é de:' + str(mensagem), 26, BRANCO, largura_tela / 2, 250)
-        exibe_mensagem(f'Aperte ESPAÇO para jogar de novo', 26, BRANCO, largura_tela / 2, 300)
+        exibe_mensagem(f'Aperte ESPAÇO para jogar de novo', 26, BRANCO, largura_tela / 2, 290)
 
         pygame.display.update()
         
@@ -254,6 +257,7 @@ class Game:
                     pygame.quit()
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
+                        pygame.mixer.Sound('audios/sfx_wing.wav').play()
                         self.novo_jogo()
         
 g = Game()
