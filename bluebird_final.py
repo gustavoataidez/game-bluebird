@@ -134,3 +134,65 @@ class Game:
         self.esta_rodando = True
         self.fonte = pygame.font.match_font(FONTE)
         
+    def novo_jogo(self):
+        #classes das sprites do jogo
+        self.todas_as_sprites = pygame.sprite.Group()
+        grupopassaro = pygame.sprite.Group()
+        passaro = Passaro()
+        grupopassaro.add(passaro)
+        pontos = 0
+
+        grupo_chao = pygame.sprite.Group()
+        for i in range(2):
+            chao = Chao(largura_chao * i)
+            grupo_chao.add(chao)
+
+        grupogaiola = pygame.sprite.Group()
+        for i in range(2):
+            gaiola = get_random_gaiola(largura_tela * i + 800)
+            grupogaiola.add(gaiola[0])
+            grupogaiola.add(gaiola[1])
+
+        self.jogando = True
+        while self.jogando:
+            self.clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    if self.jogando:
+                        self.jogando = False
+                    self.esta_rodando = False
+                if event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        passaro.pulo()
+        
+            self.tela.blit(fundo, (0, 0))
+
+            if is_off_tela(grupo_chao.sprites()[0]):
+                grupo_chao.remove(grupo_chao.sprites()[0])
+
+                novo_chao = Chao(largura_chao - 20)
+                grupo_chao.add(novo_chao)
+
+            if is_off_tela(grupogaiola.sprites()[0]):
+                grupogaiola.remove(grupogaiola.sprites()[0])
+                grupogaiola.remove(grupogaiola.sprites()[0])
+
+                gaiola = get_random_gaiola(900)
+                grupogaiola.add(gaiola[0])
+                grupogaiola.add(gaiola[1])
+
+            grupopassaro.draw(tela)
+            grupo_chao.draw(tela)
+            grupogaiola.draw(tela) #desenhando as sprites
+            
+            grupopassaro.update()
+            grupo_chao.update()
+            grupogaiola.update() #atualizando as sprites
+
+            if (pygame.sprite.groupcollide(grupopassaro, grupo_chao, False, False, pygame.sprite.collide_mask) or pygame.sprite.groupcollide(grupopassaro, grupogaiola, False, False, pygame.sprite.collide_mask)):
+                self.mostrar_tela_game_over()
+            else:
+                pontos += 0.1
+                exibe_mensagem(f'{pontos:,.1f}', 40, BRANCO, largura_tela / 2, 30)
+            
+            pygame.display.flip()
